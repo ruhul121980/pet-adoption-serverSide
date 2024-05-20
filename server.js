@@ -9,6 +9,9 @@ import loginRouter from './api/login.js';
 import registerRouter from './api/register.js';
 import uploadImgRouter from './api/upload-image.js';
 import createAdoptionRouter from './api/create-adoption.js';
+import allAdoptionsRouter from './api/all-adoptions.js';
+// import allVeterinarianRouter from './api/all-veterinarian';
+// import veterinarianRouter from './api/veterinarian';
 
 
 const app = express();
@@ -18,18 +21,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
-
-
-
-// import loginRouter from './api/login';
-// import allAdoptionsRouter from './api/all-adoptions';
-
-// import allVeterinarianRouter from './api/all-veterinarian';
-// import veterinarianRouter from './api/veterinarian';
-// connectDB()
-// // Mount all routers on the '/api' path
+ 
 app.use('/api', loginRouter);
-// app.use('/api', allAdoptionsRouter);
+app.use('/api', allAdoptionsRouter);
 app.use('/api', registerRouter);
 app.use('/api', createAdoptionRouter);
 app.use('/api', uploadImgRouter);
