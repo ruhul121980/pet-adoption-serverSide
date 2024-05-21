@@ -15,7 +15,7 @@ export default router.post('/create-adoption', async (req, res) => {
       return res.status(400).json({ message: 'Invalid user type' });
     } 
 
-    // Choose collection by type
+
     let collectionName ;
     if(type == 'user'){
         collectionName = 'users'
