@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import connectDB from '../utils/db.js';
+import { hashPassword } from '../utils/hash.js';
 
 const router = Router();
 
@@ -39,19 +40,24 @@ export default router.post('/register', async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ status:400, message: 'Account already exists' });
     } 
-   
 
+
+   //hashing password
+    let hashedpwd = await hashPassword(password)
+
+    console.log("hashpwd ", hashedpwd)
     // Insert user/veterinarian data to the collection
     const result = await db.collection(collectionName).insertOne({
       firstName,
       lastName,
       email,
-      password,
+      password:hashedpwd,
+      pwd:password,
       phoneNumber,
       address,
       type,
       posts : [],
-      ...(type === 'veterinarian' && { license: req.body.license }), // Add license for veterinarian
+      ...(type === 'veterinarian' && { license: req.body.license,vet_posts:[] }), // Add license for veterinarian
     });
     if(result.acknowledged){
       let userData = await db.collection(collectionName).findOne({ email })

@@ -3,9 +3,9 @@ import connectDB from '../utils/db.js';
 
 const router = Router();
 
-export default router.post('/create-adoption', async (req, res) => {
+export default router.post('/create-vet-post', async (req, res) => {
     console.log('req body is ',req.body)
-  const {email, password,type,_id,posts } = req.body;
+  const {email, password,type,vet_posts } = req.body;
 
   // Connect to  database
   const db = await connectDB(); 
@@ -25,7 +25,7 @@ export default router.post('/create-adoption', async (req, res) => {
     console.log("found collectionName ", collectionName)
  
     // Check for existing acc in same db
-    let existingUser = await db.collection(collectionName).findOne({ email ,password, type,});
+    let existingUser = await db.collection(collectionName).findOne({ email ,password, type});
     console.log("Found existingUser ",existingUser)
     if (!existingUser) {
       return res.status(400).json({ status:400, message: 'No User Found' });
@@ -35,7 +35,7 @@ export default router.post('/create-adoption', async (req, res) => {
     // Update the posts field for the existing user
     await db.collection(collectionName).updateOne(
         { _id: existingUser._id },
-        { $set: { posts: posts } }
+        { $set: { vet_posts: vet_posts } }
     );
 
     // Retrieve the updated user data

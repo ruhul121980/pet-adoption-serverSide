@@ -10,6 +10,8 @@ import registerRouter from './api/register.js';
 import uploadImgRouter from './api/upload-image.js';
 import createAdoptionRouter from './api/create-adoption.js';
 import allAdoptionsRouter from './api/all-adoptions.js';
+import allVetPostsRouter from './api/all-vet-posts.js';
+import createVetPost from './api/create-vet-post.js';
 // import allVeterinarianRouter from './api/all-veterinarian';
 // import veterinarianRouter from './api/veterinarian';
 
@@ -27,6 +29,8 @@ app.use('/api', allAdoptionsRouter);
 app.use('/api', registerRouter);
 app.use('/api', createAdoptionRouter);
 app.use('/api', uploadImgRouter);
+app.use('/api', createVetPost);
+app.use('/api', allVetPostsRouter);
 // app.use('/api', allVeterinarianRouter);
 // app.use('/api', veterinarianRouter);
 
