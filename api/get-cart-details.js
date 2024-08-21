@@ -1,14 +1,14 @@
-//add-to-cart
+//veterinarian
 import { Router } from 'express';
 import connectDB from '../utils/db.js'; 
-import { getUpdatedCart } from '../utils/getUpdatedCart.js';
+import { checkAlreadyAddedProduct } from '../utils/checkAlreadyAddedProduct.js';
 
 const router = Router();
 
-export default router.get('/add-to-cart', async (req, res) => {
-    const { product_id, user_type, user_email,user_id} =  req.query; 
+export default router.get('/get-cart-details', async (req, res) => {
 
-    // Connect to  database
+    const { product_id, user_type, user_email} =  req.query; 
+ 
     const db = await connectDB(); 
     try { 
       let product = await db.collection('shop').findOne({id:product_id}) ;
@@ -18,6 +18,7 @@ export default router.get('/add-to-cart', async (req, res) => {
       }
 
       let user ,userDB 
+
       if(user_type == 'user'){
         userDB = 'users'
         user = await db.collection(userDB).findOne({email:user_email }) ;
@@ -25,19 +26,10 @@ export default router.get('/add-to-cart', async (req, res) => {
         userDB = 'veterinarians'
         user = await db.collection(userDB).findOne({email:user_email }) ;
       } 
-
-      const updatedCart = getUpdatedCart(user.cart, product)
-      
-      //findOneAndUpdate the database 
-      let updateUserData = await db.collection(userDB).findOneAndUpdate(
-        { _id:user._id},
-        { $set: { "cart": updatedCart } },
-        { returnNewDocument: true }
-      );
-
-      res.status(200).json({ status:200, message: 'All products Data Found' , data: updateUserData}); 
-      
-
+      const alreadyAdded  = checkAlreadyAddedProduct(user.cart, product)
+  
+      res.status(200).json({ status:200, message: 'product Already added ' , alreadyAdded: alreadyAdded}); 
+       
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
