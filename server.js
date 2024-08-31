@@ -82,6 +82,7 @@ app.use('/api', updateOrders);
 app.use('/api', sslGetOrders);
 app.use('/api', sslFailOrder);
 app.use('/api', sslVetPayment);
+// app.use('/api', sslVetPayment);
 
 const port = process.env.PORT || 4000; 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
