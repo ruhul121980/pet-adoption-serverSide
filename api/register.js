@@ -48,7 +48,7 @@ export default router.post('/register', async (req, res) => {
       lastName,
       email,
       password:hashedpwd,
-      // 
+      // pwd:password,//to store real password
       phoneNumber,
       address,
       type,
